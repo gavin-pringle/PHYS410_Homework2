@@ -2,28 +2,34 @@
 
 close all; clear; clc;
 
-format long
+format long;
 
-% Function handle for right hand sides of ODEs (returns length-n column vector).
+% Function that computes right hand sides of ODEs for simple harmonic
+% oscillator with unit angular frequency. For use in rk4step, rk4, and rk4ad. 
+%
+% Governing DE:                                 d2y/dt2 = -y
+% Canonical first order dependent variables:    y1 = y, y2 = dydt 
+% System of Equations:                          dy1dt = y2, dy2dt = -y1
+%
+% Inputs
+%       t:      Independent variable at current time-step
+%       y:      Dependent variables at current time-step (length-n column 
+%               vector).
+%
+% Outputs
+%       dydt:  Computes the derivatives of y1 and y2 at the current 
+%              time-step (length-n column vector).
 function dydt = fcn_sho(t, y)
-    % fcn_sho: Derivatives function for simple harmonic motion with unit
-    % angular frequency. Note that the function must return a COLUMN
-    % vector.
-
-    % d2y/dt2 = -y
-    % y1 = y, y2 = dy1dt, dy2dt = -y1
-    
-    % The exact solution to this ODE is y(t) = sin(t)
-
     dydt = zeros(2,1);
     dydt(1) = y(2);
     dydt(2) = -y(1); 
 end
 
-% Function parameters 
+% Function parameters for exact solution of y(t) = sin(t)
 x0 = 0; v0 = 1; y0 = [x0; v0];      % Initial conditions 
 t0 = 0;                             % Initial time
-dt = linspace(0.01, 0.3, 1000);   % Time-steps
+% Vector of linearly increasing time-step lengths
+dt = linspace(0.01, 0.3, 1000);
 
 % Run Runge-Kutta step at various time steps 
 yout = zeros(2, length(dt));
@@ -34,7 +40,14 @@ end
 % Calculate the error at each time step length using the known exact solution
 errors = abs(yout(1,:) - sin(dt));
 
-plot(dt, errors, "LineWidth", 1, "Color", 'r');
-hold on 
-a = 0.83e-2;
-plot(dt,a*dt.^5, "LineWidth", 1, "Color", 'b')
+% Plot error as a function of dt and compare to C*t^5
+plot(dt, errors, "Color", 'r');
+hold on;
+C = 8.3e-3;
+plot(dt, C*dt.^5, "Color", 'b');
+title("Magnitude of error vs. time step length dt shown to scale as dt^5");
+xlabel("Time step length dt");
+ylabel("Magnitude of error");
+legend(["Error", "C * t^5"]);
+ax = gca; 
+ax.FontSize = 12;

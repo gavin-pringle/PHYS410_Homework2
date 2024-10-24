@@ -1,5 +1,8 @@
 %% Problem 2 - Runge-Kutta System of ODEs Integrator
 
+% Function that numerically computes the solution to a system of ODEs
+% over a given period of time using a fourth-order Runge-Kutta method.
+%
 % Inputs
 %       fcn:    Function handle for right hand sides of ODEs (returns
 %               length-n column vector)

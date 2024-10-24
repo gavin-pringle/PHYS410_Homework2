@@ -1,5 +1,7 @@
 %% Problem 1 - Single Fourth Order Runge-Kutta Step
 
+% Function that computes a single fourth order Runge-Kutta Step.
+%
 % Inputs
 %       fcn:    Function handle for right hand sides of ODEs (returns
 %               length-n column vector).
