@@ -41,8 +41,8 @@ end
 errors = abs(yout(1,:) - sin(dt));
 
 % Plot error as a function of dt and compare to C*t^5
-plot(dt, errors, "Color", 'r');
 hold on;
+plot(dt, errors, "Color", 'r');
 C = 8.3e-3;
 plot(dt, C*dt.^5, "Color", 'b');
 title("Magnitude of error vs. time step length dt shown to scale as dt^5");
