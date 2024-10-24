@@ -7,9 +7,9 @@ format long;
 % Function that computes right hand sides of ODEs for simple harmonic
 % oscillator with unit angular frequency. For use in rk4step, rk4, and rk4ad. 
 %
-% Governing DE:                                 d2y/dt2 = -y
-% Canonical first order dependent variables:    y1 = y, y2 = dydt 
-% System of Equations:                          dy1dt = y2, dy2dt = -y1
+% Governing DE:                                 y" = -y
+% Canonical first order dependent variables:    y1 = y, y2 = y' 
+% System of Equations:                          y1' = y2, y2' = -y1
 %
 % Inputs
 %       t:      Independent variable at current time-step
@@ -57,3 +57,5 @@ hold on
 plot(tout6, errors6);
 plot(tout7, 2^4*errors7);
 plot(tout8, 4^4*errors8);
+grid on 
+
