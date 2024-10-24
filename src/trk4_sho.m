@@ -39,12 +39,18 @@ tspan8 = linspace(t0, tf, 2^8 + 1);
 [tout7 yout7] = rk4(@fcn_sho, tspan7, y0);
 [tout8 yout8] = rk4(@fcn_sho, tspan8, y0);
 
-% Plot the solutions at each 
+% Plot the solutions at each discretization level 
 fig1 = figure(1);
 hold on
-plot(tout6, yout6(:,1));
-plot(tout7, yout7(:,1));
-plot(tout8, yout8(:,1));
+plot(tout6, yout6(:,1), "LineWidth", 2);
+plot(tout7, yout7(:,1), "LineWidth", 2);
+plot(tout8, yout8(:,1), "LineWidth", 2);
+title("Numerical solutions to SHO ODE at various discretization levels");
+xlabel("Independent Variable t");
+ylabel("Dependent Variable y");
+legend(["l = 6", "l = 7", "l = 8"], 'location', 'best');
+ax = gca; 
+ax.FontSize = 12;
 
 % Compute the errors at each time step for each discretization level
 errors6 = yout6(:,1) - sin(tout6).';
@@ -54,8 +60,15 @@ errors8 = yout8(:,1) - sin(tout8).';
 % Plot the scaled errors for each discretization level 
 fig2 = figure(2);
 hold on
-plot(tout6, errors6);
-plot(tout7, 2^4*errors7);
-plot(tout8, 4^4*errors8);
+plot(tout6, errors6, "LineWidth", 2);
+plot(tout7, 2^4*errors7, "LineWidth", 2);
+plot(tout8, 4^4*errors8, "LineWidth", 2);
 grid on 
-
+title({"Scaled Errors of numerical solutions to SHO ODE at ", ...
+       "various discretization levels"});
+xlabel("Independent Variable t");
+ylabel("Scaled error");
+legend(["error @ l=6", "2^4 * error @ l=7", "4^4 * error @ l=8"], ...
+        'location', 'best');
+ax = gca; 
+ax.FontSize = 12;
