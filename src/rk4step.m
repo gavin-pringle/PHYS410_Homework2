@@ -19,3 +19,4 @@ function yout = rk4step(fcn, t0, dt, y0)
     f3 = fcn(t0 + dt, y0 + dt*f2);
     % Add terms to compute full RK step 
     yout = y0 + (dt/6)*(f0 + 2*f1 + 2*f2 + f3);
+end

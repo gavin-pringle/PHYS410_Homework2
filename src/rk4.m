@@ -32,3 +32,4 @@ function [tout yout] = rk4(fcn, tspan, y0)
 
     % Generate array of output values 
     tout = tspan;
+end
