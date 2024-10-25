@@ -48,12 +48,36 @@ function [tout yout] = rk4ad(fcn, tspan, reltol, y0)
             yout(i,:) = yf.';
             continue;
         else 
-            % Iteratively halve dt until reltol is met or floor is reached
+            % Iteratively compute yf at repeatedly halved dt sizes
+            % until reltol is met or floor is reached
+            j = 2;
+            while dt/(2^j) > floor % Decrease step size by half each iteration
+                yc = yf;
+                yf = y0;
+                for k = 0:2^j - 1 % Number of steps to get to t0 + dt
+                    yf = rk4step(fcn, t0 + k*dt/(2^j), dt/(2^j), yf);
+                end 
+                if abs((yc - yf)/yf) < reltol
+                    yout(i,:) = yf.';
+                    break;
+                end
+                j = j + 1;
+            end 
+            yout(i,:) = yf.';
         end 
     end 
+
+    % Generate array of output values 
+    tout = tspan;
 end
 
 % NOTES:
 % Consider that tspan points might not be equidistant
 % RELATIVE tolerance - divide by y
 % 
+% Can probably add everything into the while / for loop later
+%
+% y1of4 = rk4step(fcn, t0 + 0*dt/4, dt/4, y0);
+% y2of4 = rk4step(fcn, t0 + 1*dt/4, dt/4, y1of4);
+% y3of4 = rk4step(fcn, t0 + 2*dt/4, dt/4, y2of4);
+% y4of4 = rk4step(fcn, t0 + 3*dt/4, dt/4, y3of4);
