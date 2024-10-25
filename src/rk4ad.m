@@ -1,7 +1,9 @@
 %% Problem 3 - Adaptive Fourth Order Runge-Kutta System of ODEs Integrator
 
-%
-%
+% Function that numerically computes the solution to a system of ODEs
+% over a given period of time using a fourth-order Runge-Kutta method
+% with adaptive steps sizes to ensure a relative tolerance is reached.
+% 
 % Inputs
 %       fcn:    Function handle for right hand sides of ODEs (returns
 %               length-n column vector)
@@ -33,7 +35,7 @@ function [tout yout] = rk4ad(fcn, tspan, reltol, y0)
         y0 = yout(i-1,:).';
         dt = tspan(i) - tspan(i-1);
 
-        % Compute fine and coarse appromations for y(t0 + dt)
+        % Compute fine and coarse approximations for y(t0 + dt)
         yc = rk4step(fcn, t0, dt, y0);
         if dt/2 < floor
             % If fine step is lower than floor, cannot narrow down any further
@@ -57,10 +59,11 @@ function [tout yout] = rk4ad(fcn, tspan, reltol, y0)
                 for k = 0:2^j - 1 % Number of steps to get to t0 + dt
                     yf = rk4step(fcn, t0 + k*dt/(2^j), dt/(2^j), yf);
                 end 
+
                 if abs((yc - yf)/yf) < reltol
-                    yout(i,:) = yf.';
                     break;
                 end
+
                 j = j + 1;
             end 
             yout(i,:) = yf.';

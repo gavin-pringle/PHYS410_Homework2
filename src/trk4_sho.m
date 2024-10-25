@@ -64,7 +64,7 @@ plot(tout6, errors6, "LineWidth", 2);
 plot(tout7, 2^4*errors7, "LineWidth", 2);
 plot(tout8, 4^4*errors8, "LineWidth", 2);
 grid on 
-title({"Scaled Errors of numerical solutions to SHO ODE at ", ...
+title({"Scaled errors of numerical solutions to SHO ODE at ", ...
        "various discretization levels"});
 xlabel("Independent Variable t");
 ylabel("Scaled error");
