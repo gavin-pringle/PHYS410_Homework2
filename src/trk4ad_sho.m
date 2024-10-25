@@ -62,7 +62,7 @@ hold on
 plot(tout5, errors5, "LineWidth", 2);
 plot(tout7, errors7, "LineWidth", 2);
 plot(tout9, errors9, "LineWidth", 2);
-plot(tout11, errors11, "LineWidth", 2);
+plot(tout11, errors11, "--", "LineWidth", 2);
 grid on 
 title({"Errors of numerical solutions to SHO ODE at ", ...
        "various rk4ad relative tolerances"});

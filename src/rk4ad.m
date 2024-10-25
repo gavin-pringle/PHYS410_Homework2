@@ -31,19 +31,19 @@ function [tout yout] = rk4ad(fcn, tspan, reltol, y0)
     % Integrate ODE 
     for i = 2:nout
         % Compute coarse rk4step arguments  
-        t0 = tspan(i-1);
-        y0 = yout(i-1,:).';
+        tprev = tspan(i-1);
+        yprev = yout(i-1,:).';
         dt = tspan(i) - tspan(i-1);
 
-        % Compute fine and coarse approximations for y(t0 + dt)
-        yc = rk4step(fcn, t0, dt, y0);
+        % Compute fine and coarse approximations for y(tprev + dt)
+        yc = rk4step(fcn, tprev, dt, yprev);
         if dt/2 < floor
             % If fine step is lower than floor, cannot narrow down any further
             yout(i,:) = yc.';
             continue;
         end 
-        yhalf = rk4step(fcn, t0, dt/2, y0);
-        yf = rk4step(fcn, t0 + dt/2, dt/2, yhalf);
+        yhalf = rk4step(fcn, tprev, dt/2, yprev);
+        yf = rk4step(fcn, tprev + dt/2, dt/2, yhalf);
 
         % Check if error meets relative tolerance parameter
         if abs((yc - yf)/yf) < reltol
@@ -55,9 +55,9 @@ function [tout yout] = rk4ad(fcn, tspan, reltol, y0)
             j = 2;
             while dt/(2^j) > floor % Decrease step size by half each iteration
                 yc = yf;
-                yf = y0;
-                for k = 0:2^j - 1 % Number of steps to get to t0 + dt
-                    yf = rk4step(fcn, t0 + k*dt/(2^j), dt/(2^j), yf);
+                yf = yprev;
+                for k = 0:2^j - 1 % Number of steps to get to tprev + dt
+                    yf = rk4step(fcn, tprev + k*dt/(2^j), dt/(2^j), yf);
                 end 
 
                 if abs((yc - yf)/yf) < reltol
@@ -73,14 +73,3 @@ function [tout yout] = rk4ad(fcn, tspan, reltol, y0)
     % Generate array of output values 
     tout = tspan;
 end
-
-% NOTES:
-% Consider that tspan points might not be equidistant
-% RELATIVE tolerance - divide by y
-% 
-% Can probably add everything into the while / for loop later
-%
-% y1of4 = rk4step(fcn, t0 + 0*dt/4, dt/4, y0);
-% y2of4 = rk4step(fcn, t0 + 1*dt/4, dt/4, y1of4);
-% y3of4 = rk4step(fcn, t0 + 2*dt/4, dt/4, y2of4);
-% y4of4 = rk4step(fcn, t0 + 3*dt/4, dt/4, y3of4);
