@@ -31,7 +31,7 @@ end
 % Function parameters 
 x0 = [0; -6];       % Initial conditions 
 t0 = 0; tf = 100;   % Start and end times 
-a = 5;              % Adjustable parameter
+global a; a = 5;    % Adjustable parameter
 
 % Discretization level 
 level = 12; 
@@ -42,7 +42,7 @@ tspan = linspace(t0, tf, 2^level + 1);
 
 % Plot position vs time
 fig1 = figure(1);
-plot(tout, xout, "LineWidth", 2)
+plot(tout, xout(:,1), "LineWidth", 2)
 title("Numerical solution of Van der Pol oscillator ODE - Position x vs. Time t");
 xlabel("Independent Variable - Time t");
 ylabel("Dependent Variable - Position x");
@@ -50,4 +50,11 @@ ax = gca;
 ax.FontSize = 12;
 
 % Plot phase space evolution 
-
+fig2 = figure(2);
+plot(xout(:,1), xout(:,2), "LineWidth", 2)
+title({"Phase space evolution of Van der Pol oscillator ODE", ...
+       "Velocity dx/dt vs. Position x"});
+xlabel("Position x");
+ylabel("Velocity dx/dt");
+ax = gca; 
+ax.FontSize = 12;
