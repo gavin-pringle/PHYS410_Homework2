@@ -7,38 +7,38 @@ format long;
 % Function that computes right hand sides of ODEs for simple harmonic
 % oscillator with unit angular frequency. For use in rk4step, rk4, and rk4ad. 
 %
-% Governing DE:                                 y" = -y
-% Canonical first order dependent variables:    y1 = y, y2 = y' 
-% System of Equations:                          y1' = y2, y2' = -y1
+% Governing DE:                                 x" = -x
+% Canonical first order dependent variables:    x1 = x, x2 = x' 
+% System of Equations:                          x1' = x2, x2' = -x1
 %
 % Inputs
 %       t:      Independent variable at current time-step
-%       y:      Dependent variables at current time-step (length-n column 
+%       x:      Dependent variables at current time-step (length-n column 
 %               vector).
 %
 % Outputs
-%       dydt:  Computes the derivatives of y1 and y2 at the current 
+%       dxdt:  Computes the derivatives of x1 and x2 at the current 
 %              time-step (length-n column vector).
-function dydt = fcn_sho(t, y)
-    dydt = zeros(2,1);
-    dydt(1) = y(2);
-    dydt(2) = -y(1); 
+function dxdt = fcn_sho(t, x)
+    dxdt = zeros(2,1);
+    dxdt(1) = x(2);
+    dxdt(2) = -x(1); 
 end
 
-% Function parameters for exact solution of y(t) = sin(t)
-x0 = 0; v0 = 1; y0 = [x0; v0];      % Initial conditions 
-t0 = 0;                             % Initial time
+% Function parameters for exact solution of x(t) = sin(t)
+x0 = [0; 1];    % Initial conditions 
+t0 = 0;         % Initial time
 % Vector of linearly increasing time-step lengths
 dt = linspace(0.01, 0.3, 1000);
 
 % Run Runge-Kutta step at various time steps 
-yout = zeros(2, length(dt));
+xout = zeros(2, length(dt));
 for i = 1:length(dt)
-    yout(:,i) = rk4step(@fcn_sho, t0, dt(i), y0);
+    xout(:,i) = rk4step(@fcn_sho, t0, dt(i), x0);
 end 
 
 % Calculate the error at each time step length using the known exact solution
-errors = abs(yout(1,:) - sin(dt));
+errors = abs(xout(1,:) - sin(dt));
 
 % Plot error as a function of dt and compare to C*t^5
 hold on;
