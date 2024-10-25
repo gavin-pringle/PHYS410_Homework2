@@ -28,3 +28,31 @@ function dxdt = fcn_vdp(t, x)
     dxdt(2) = -x(1) - a*(x(1)^2 - 1)*x(2);
 end
 
+% Function parameters 
+x0 = [0; -6];                       % Initial conditions 
+tspan = linspace(0.0, 100, 4097);   % Vector of output times
+global a; a = 5;                    % Adjustable parameter
+reltol = 1.0e-10;                   % Relative tolerance 
+
+% Compute ODE numerical solution 
+[tout xout] = rk4ad(@fcn_vdp, tspan, reltol, x0);
+
+% Plot position vs time
+fig1 = figure(1);
+plot(tout, xout(:,1), "LineWidth", 2)
+title({"Numerical solution of Van der Pol oscillator ODE using rk4ad", ...
+       "Position x vs. Time t, Relative tolerance = 1.0e-10"});
+xlabel("Independent Variable - Time t");
+ylabel("Dependent Variable - Position x");
+ax = gca; 
+ax.FontSize = 12;
+
+% Plot phase space evolution 
+fig2 = figure(2);
+plot(xout(:,1), xout(:,2), "LineWidth", 2)
+title({"Phase space evolution of Van der Pol oscillator ODE using rk4ad", ...
+       "Velocity dx/dt vs. Position x, Relative tolerance = 1.0e-10"});
+xlabel("Position x");
+ylabel("Velocity dx/dt");
+ax = gca; 
+ax.FontSize = 12;
