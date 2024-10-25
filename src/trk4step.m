@@ -42,9 +42,9 @@ errors = abs(xout(1,:) - sin(dt));
 
 % Plot error as a function of dt and compare to C*t^5
 hold on;
-plot(dt, errors, "Color", 'r', "LineWidth", 2);
+plot(dt, errors, "Color", 'r', "LineWidth", 3);
 C = 8.3e-3;
-plot(dt, C*dt.^5, "--", "Color", 'b', "LineWidth", 2);
+plot(dt, C*dt.^5, "--", "Color", 'b', "LineWidth", 3);
 title("Magnitude of error vs. time step length dt shown to scale as dt^5");
 xlabel("Time step length dt");
 ylabel("Magnitude of error");

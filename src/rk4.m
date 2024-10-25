@@ -18,8 +18,6 @@ function [tout yout] = rk4(fcn, tspan, y0)
     n = max(size(y0));
     % Number of time-steps
     nout = max(size(tspan));
-    % Step size
-    dt = tspan(2) - tspan(1);
 
     % Initialize array for output values 
     yout = zeros(nout, n);
@@ -27,6 +25,9 @@ function [tout yout] = rk4(fcn, tspan, y0)
 
     % Integrate ODE 
     for i = 2:nout
+        % Step size for the current step 
+        dt = tspan(i) - tspan(i-1);
+        % Compute the values of the dependent variables at the next step
         yout(i,:) = rk4step(fcn, tspan(i-1), dt, yout(i-1,:).').';
     end 
 
