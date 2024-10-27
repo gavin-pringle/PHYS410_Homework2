@@ -59,17 +59,50 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Introduction}
 
+In this homework assignment, the fourth-order Runge-Kutta method for computing numerical solutions of 
+ODEs is explored. This is done in stages, culminating in creating a MATLAB function that numerically
+integrates an ODE using an algorithm that automatically varies the step size of the integrator in order
+to achieve a relative error tolerance. 
+
+First, a function \code{rk4step} is written that computes a single fourth-order Runge-Kutta step for a 
+system of coupled first-order ODEs, returning the approximate values of the dependent variables after
+a defined time step. The function \code{rk4step} is then used in the function \code{rk4} which computes 
+the solution of an initial value problem over a range of values for the independent variable, done by 
+taking multiple fourth-order Runge-Kutta steps in a loop. Lastly, the function \code{rk4ad} is written 
+which finds the numerical solution of an initial value problem by comparing the results of fourth-order 
+Runge-Kutta steps of different sizes and then varying the step size as until the error in the 
+approximation is below a specified relative tolerance.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Review of Theory
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Review of Theory}
 
+\subsubsection*{Casting systems of ODEs in first-order form}
+
+
+
+\subsubsection*{The fourth-order Runge-Kutta step}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Numerical approach
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Numerical Approach}
+
+\subsubsection*{Consecutive fourth-order Runge-Kutta steps}
+% the code implementation of the fourth-order Runge-Kutta step is shown in Appendix A
+% in order to solve an ODE initial value problem, multiple fourth-order Runge-Kutta steps must be taken 
+
+% Refer to Appendix C 
+
+\subsubsection*{Adaptive step sizing}
+
+% Discuss how the error is checked by taking fine and coarse steps 
+% Can copy lots of equations from the homework doc
+
+% Describe my rk4ad algorithm 
+
+% Refer to Appendix F 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -77,11 +110,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Implementation}
 
+\subsubsection*{ODE test functions} % sho and vdp
+% In order to test ... 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Results}
+
+\subsubsection*{rk4step.m Output}
+
+\subsubsection*{rk4.m Output}
+
+\subsubsection*{rk4ad.m Output}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
