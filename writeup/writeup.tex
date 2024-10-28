@@ -81,20 +81,20 @@ approximation is below a specified relative tolerance.
 \subsubsection*{Casting systems of ODEs in first-order form}
 
 In order to solve complicated ODEs numerically, it is useful to first cast them in a canonical form that 
-is easier for a computer program to understand. Any ODE defining the function $y(x)$ that is of the form 
-$$f(x, y, y', y'', y^{(3)}, \ldots,  y^{(N)}) = 0$$
+is easier for a computer program to understand. Any ODE defining the function $y(t)$ that is of the form 
+$$f(t, y, y', y'', y^{(3)}, \ldots,  y^{(N)}) = 0$$
 can be rewritten as a system of $N$ coupled first-order ODEs for the functions 
-$y_i(x), \quad i = 1, 2, 3, \ldots, N$:
+$y_i(t), \quad i = 1, 2, 3, \ldots, N$:
 \begin{equation}\label{sys_DE}
-y_i'(x) \equiv \frac{dy_i}{dx}(x) = f_i(x, y_1, y_2, y_3, \ldots, y_N)
+y_i'(t) \equiv \frac{dy_i}{dt}(t) = f_i(t, y_1, y_2, y_3, \ldots, y_N)
 \end{equation}
-where $f_i$ are known functions of $x$ and $y_i$. This is equivalent to
+where $f_i$ are known functions of $t$ and $y_i$. This is equivalent to
 \begin{equation}\label{sys_DE_vec}
-\mathbf{y'} = \mathbf{f}(x, \mathbf{y}) \quad \textrm{where} \quad \mathbf{y} \equiv (y_1, y_2, y_3, 
+\mathbf{y'} = \mathbf{f}(t, \mathbf{y}) \quad \textrm{where} \quad \mathbf{y} \equiv (y_1, y_2, y_3, 
 \ldots, y_N)
 \end{equation}
 
-For example, the function $y^{(4)}(x) = f(x)$ can be written as 
+For example, the function $y^{(4)}(t) = f(t)$ can be written as 
 $$y_3' = f, \quad y' = y_1, \quad y_1' = y2, \quad y_2' = y_3$$
 
 \subsubsection*{The fourth-order Runge-Kutta step}
@@ -102,16 +102,16 @@ $$y_3' = f, \quad y' = y_1, \quad y_1' = y2, \quad y_2' = y_3$$
 The fourth-order Runge-Kutta step for numerically solving a system of $N$ coupled first-order ODEs is 
 defined as:
 \begin{equation}\label{rk_step}
-y_i(x_0 + h) = y_i(x_0) + \frac{h}{6} (f_{0,i} + 2f_{1,i} + 2f_{2,i} + f_{3,i})
+y_i(t_0 + h) = y_i(t_0) + \frac{h}{6} (f_{0,i} + 2f_{1,i} + 2f_{2,i} + f_{3,i})
 \end{equation}
 with the terms $f_{0,i} \;f_{1,i} \;f_{2,i} \;f_{3,i}$ given by 
-\begin{align*}\label{rk_step_f_defs}
-f_{0,i} &= f_i(x_0, \;y_{0,i}) \\
-f_{1,i} &= f_i\left(x_0 + \frac{h}{2}, \;y_{0,i} + \frac{h}{2} f_{0,i}\right) \\
-f_{2,i} &= f_i\left(x_0 + \frac{h}{2}, \;y_{0,i} + \frac{h}{2} f_{1,i}\right) \\
-f_{3,i} &= f_i\left(x_0 + h, \;y_{0,i} + h f_{2,i}\right) \\
-\end{align*}
-where each $f_i$ on the right-hand sides  of the above equations are defined in (\ref{sys_DE}) and 
+\begin{align}\label{rk_step_f_defs}
+f_{0,i} &= f_i(t_0, \;y_{0,i}) \\
+f_{1,i} &= f_i\left(t_0 + \frac{h}{2}, \;y_{0,i} + \frac{h}{2} f_{0,i}\right) \\
+f_{2,i} &= f_i\left(t_0 + \frac{h}{2}, \;y_{0,i} + \frac{h}{2} f_{1,i}\right) \\
+f_{3,i} &= f_i\left(t_0 + h, \;y_{0,i} + h f_{2,i}\right)
+\end{align}
+where each $f_i$ on the right-hand sides of the above equations are defined in (\ref{sys_DE}) and 
 h is the step size. This can be understood as a weighted sum of four numerical approximations to the 
 solution of the ODE. A single fourth-order Runge-Kutta step is accurate to $O(\Delta t^5)$.
 
@@ -121,22 +121,47 @@ solution of the ODE. A single fourth-order Runge-Kutta step is accurate to $O(\D
 \subsection*{Numerical Approach}
 
 \subsubsection*{Consecutive fourth-order Runge-Kutta steps}
-% the code implementation of the fourth-order Runge-Kutta step is shown in Appendix A
-% in order to solve an ODE initial value problem, multiple fourth-order Runge-Kutta steps must be taken 
 
-% Refer to Appendix C 
+In order to compute the numerical solution to an ODE (or in canonical form, a system of first-order 
+ODEs), multiple consecutive fourth-order Runge-Kutta steps must be taken. The MATLAB implementation of 
+a single fourth-order Runge-Kutta step is shown in Appendix A as \code{rk4step.m}, while Appendix C 
+shows the MATLAB implementation of a complete fourth-order Runge-Kutta ODE integrator as \code{rk4.m}. 
+In \code{rk4.m}, equation (\ref{rk_step}) is repeatedly computed using the previous output of equation 
+(\ref{rk_step}) as an input. The step size \code{dt} is given by the difference at the current time-step 
+between independent variable values at which the solution of the ODE is to be computed at, passed as 
+\code{tspan}.
 
-% accurate to 4th order
+It is important to note that while a single fourth-order Runge-Kutta step is accurate to $O(\Delta t^5)$,
+the full numerical solution to and ODE given by \code{rk4.m} is accurate to $O(\Delta t^4)$, since
+error accumulates linearly throughout the integration. 
 
 \subsubsection*{Adaptive step sizing}
 
-% Discuss how the error is checked by taking fine and coarse steps 
-% Can copy lots of equations from the homework doc
+The Runge-Kutta integrator can be made more accurate by varying the step size \code{dt} at each step 
+depending on an estimation of the error accumulated in that step. To show how the per-step error can be
+estimated using time-steps of multiple lengths, consider (for each dependent variable y in the system of 
+ODEs) a "coarse" step of length $\Delta t$ (producing the output $y_C$) and two "fine" steps of length 
+$\Delta t / 2$ (producing the output $y_F$).
+\begin{align*}\label{y_F_and_y_C}
+y_C(t_0 + \Delta t) &\approx y_{\text{exact}}(t_0 + \Delta t) + k(t_0) \Delta t^5 \\
+y_F(t_0 + \Delta t) &\approx y_{\text{exact}}(t_0 + \Delta t) + k(t_0) \left( \frac{\Delta t}{2} 
+\right)^5 + k\left(t_0 + \frac{\Delta t}{2}\right) \left( \frac{\Delta t}{2} \right)^5 \\
+&\approx y_{\text{exact}}(t_0 + \Delta t) + 2 k(t_0) \left( \frac{\Delta t}{2} \right)^5
+\end{align*}
+In the above equations, $k(t)$ is some function of time. Subtracting $y_F$ and $y_C$ at the advanced time,
+we get
+\begin{equation}\label{error_estimation}
+y_C(t_0 + \Delta t) - y_F(t_0 + \Delta t) \approx \frac{15}{16}k(t_0) \Delta t^5 \approx \frac{15}{16}e_C
+\end{equation}
+which yields an estimate for the local solution error $e_C$.
+
+This error estimation is implemented in the MATLAB function \code{rk4ad.m} (Appendix F), which functions 
+as an adaptive step size fourth-order Runge-Kutta ODE integrator. In \code{rk4ad.m}, similar to 
+\code{rk4.m}, the function is written to compute the values of the ODE defined by the argument \code{fcn}
+at the times defined in \code{tspan}, with the initial values of the dependent variables defined by 
+\code{y0}. However, the additional argument \code{reltol} is also passed which 
 
 % Describe my rk4ad algorithm 
-
-% Refer to Appendix F 
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Implementation
@@ -145,6 +170,8 @@ solution of the ODE. A single fourth-order Runge-Kutta step is accurate to $O(\D
 
 \subsubsection*{ODE test functions} % sho and vdp
 % In order to test ... 
+
+% define ode equations (as in comment block)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Results
