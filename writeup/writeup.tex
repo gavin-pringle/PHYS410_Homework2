@@ -159,9 +159,20 @@ This error estimation is implemented in the MATLAB function \code{rk4ad.m} (Appe
 as an adaptive step size fourth-order Runge-Kutta ODE integrator. In \code{rk4ad.m}, similar to 
 \code{rk4.m}, the function is written to compute the values of the ODE defined by the argument \code{fcn}
 at the times defined in \code{tspan}, with the initial values of the dependent variables defined by 
-\code{y0}. However, the additional argument \code{reltol} is also passed which 
+\code{y0}. However, the additional argument \code{reltol} is also passed which directs the function to 
+iteratively decrease the step sizes in between values of \code{tspan} until the step-size to step-size 
+error described above is below \code{reltol}. A lower bound for the step-size is defined by the constant 
+\code{floor = 1.0e-4}.
 
-% Describe my rk4ad algorithm 
+At each time-step in \code{rk4ad.m}, the coarse numerical solution is computed using the distance to the 
+next time-step and the fine numerical solution is computed using two time-steps equalling half the 
+distance to the next time step. These solutions are then compared as shown in (\ref{error_estimation}). If 
+the estimated solution error is above \code{reltol}, the process is repeated where each fine step is 
+divided into two even finer steps and the solution across the four time steps is compared to the solution
+across the two time steps. If the new estimated error is below \code{reltol}, the process stops and the 
+function moves on to computing the solution at the next time-step, and if not the process of successively 
+halving the step-size continues until either \code{reltol} is achieved or the step-size limit \code{floor}
+is reached. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Implementation
@@ -169,7 +180,11 @@ at the times defined in \code{tspan}, with the initial values of the dependent v
 \subsection*{Implementation}
 
 \subsubsection*{ODE test functions} % sho and vdp
-% In order to test ... 
+
+In order to test the functions \code{rk4step.m}, \code{rk4.m}, and \code{rk4ad.m}, sample ODEs must be
+used. The first of the two ODEs used in this assignment to test the ODE integrators is the ODE for the
+simple harmonic oscillator with unit angular frequency. This ODE is given by the following equation:
+$$\frac{d^2y}{dt^2} + y = 0$$
 
 % define ode equations (as in comment block)
 
