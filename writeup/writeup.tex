@@ -184,9 +184,45 @@ is reached.
 In order to test the functions \code{rk4step.m}, \code{rk4.m}, and \code{rk4ad.m}, sample ODEs must be
 used. The first of the two ODEs used in this assignment to test the ODE integrators is the ODE for the
 simple harmonic oscillator with unit angular frequency. This ODE is given by the following equation:
-$$\frac{d^2y}{dt^2} + y = 0$$
+\begin{equation}\label{sho_ode}
+\frac{d^2x}{dt^2}(t) = -x(t)
+\end{equation}
+with the initial conditions 
+$$x(0) = 0, \quad \frac{dx}{dt}(0) = 1$$
+In the canonical first-order form this ODE can be written as 
+$$\frac{dx_1}{dt} = x_2, \quad \frac{dx_2}{dt} = -x_1$$
+where 
+$$x_1 = x, \quad x_2 = \frac{dx}{dt}$$
+The function \code{fcn\_sho} was written to implement this ODE in MATLAB in order to pass it to 
+\code{rk4.m} and \code{rk4ad.m}:
+\begin{verbatim}
+function dxdt = fcn_sho(t, x)
+    dxdt = zeros(2,1);
+    dxdt(1) = x(2);
+    dxdt(2) = -x(1); 
+end
+\end{verbatim}
 
-% define ode equations (as in comment block)
+The second of the two ODEs used is the ODE for the unforced Van der Pol oscillator, shown below
+\begin{equation}\label{vdp_ode}
+\frac{d^2x}{dt^2}(t) = -x(t) - a(x(t)^2 - 1)\frac{dx}{dt}(t)
+\end{equation}
+In this assignment, $a = 5$ and the following initial conditions are used: 
+$$x(0) = 1, \quad \frac{dx}{dt}(0) = -6$$
+In the canonical first-order form this ODE can be written as 
+$$\frac{dx_1}{dt} = x_2, \quad \frac{dx_2}{dt} = -x_1(t) - a(x_1(t)^2 - 1)x_2(t)$$
+where 
+$$x_1 = x, \quad x_2 = \frac{dx}{dt}$$
+The function \code{vdp\_sho} was written to implement this ODE in MATLAB in order to pass it to 
+\code{rk4.m} and \code{rk4ad.m}:
+\begin{verbatim}
+function dxdt = fcn_vdp(t, x)
+    global a;
+    dxdt = ones(2,1);
+    dxdt(1) = x(2);
+    dxdt(2) = -x(1) - a*(x(1)^2 - 1)*x(2);
+end
+\end{verbatim}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Results

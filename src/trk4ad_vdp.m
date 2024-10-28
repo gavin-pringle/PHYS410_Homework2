@@ -29,7 +29,7 @@ function dxdt = fcn_vdp(t, x)
 end
 
 % Function parameters 
-x0 = [0; -6];                       % Initial conditions 
+x0 = [1; -6];                       % Initial conditions 
 tspan = linspace(0.0, 100, 4097);   % Vector of output times
 global a; a = 5;                    % Adjustable parameter
 reltol = 1.0e-10;                   % Relative tolerance 

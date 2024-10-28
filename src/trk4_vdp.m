@@ -29,7 +29,7 @@ function dxdt = fcn_vdp(t, x)
 end
 
 % Function parameters 
-x0 = [0; -6];       % Initial conditions 
+x0 = [1; -6];       % Initial conditions 
 t0 = 0; tf = 100;   % Start and end times 
 global a; a = 5;    % Adjustable parameter
 
