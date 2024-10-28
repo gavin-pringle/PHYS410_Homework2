@@ -70,8 +70,8 @@ a defined time step. The function \code{rk4step} is then used in the function \c
 the solution of an initial value problem over a range of values for the independent variable, done by 
 taking multiple fourth-order Runge-Kutta steps in a loop. Lastly, the function \code{rk4ad} is written 
 which finds the numerical solution of an initial value problem by comparing the results of fourth-order 
-Runge-Kutta steps of different sizes and then varying the step size as until the error in the 
-approximation is below a specified relative tolerance.
+Runge-Kutta steps of different sizes and varying the step size until the error in the approximation is 
+below a specified relative tolerance.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Review of Theory
@@ -262,9 +262,9 @@ ODE. This was done with the initial conditions defined by \code{x0 = [0; 1]} on 
 $0 \leq t \leq 3\pi$ at discretization levels $l = 6, 7, 8$. Since the exact solution to this IVP
 is given by $y(t) = \sin(t)$, the exact errors were calculated for each discretization level.
 
-For fourth order convergence, the magnitude of the error given by the numerical solutions is expected 
+For fourth-order convergence, the magnitude of the error given by the numerical solutions is expected 
 to decrease by a factor of $(2 \Delta l)^4$ for each increase $\Delta l$ above a baseline $l$. If we 
-scale the errors at higher discretization levels by dividing by this value, we should see near 
+scale the errors at higher discretization levels by multiplying by this value, we should see near 
 convergence for the error curves if our approximation is accurate to $O(\Delta t^4)$. We can see in 
 Figure \ref{trk4_sho_2_fig} that is the case as we expect. Refer to Appendix D for the MATLAB code 
 for \code{trk4\_sho.m}.
@@ -302,13 +302,13 @@ $0 \leq t \leq 100$ at discretization level 12.}\label{trk4_vdp_2_fig}
 
 \subsubsection*{rk4ad.m Output}
 
-The fourth-order Runge-Kutta ODE integrator described previously is implemented in the function 
-\code{rk4ad}. To test this function, two scripts were again written, the first being \code{trk4\_sho.m}, 
-which calls \code{rk4} to integrate the simple harmonic oscillator ODE. This script uses the function
-parameter \code{x0 = [0; 1]} and \code{tspan = linspace(0.0, 3.0 * pi, 65)} to integrate the function 
-four times with the relative tolerances \code{1.0e-5, 1.0e-7, 1.0e-9, 1.0e-11}. Figure 
-\ref{trk4ad_sho_2_fig} shows the exact error of each approximation throughout the domain of $t$ upon 
-which the ODE was integrated. It is clear that the numerical approximations rapidly become more 
+The fourth-order Runge-Kutta ODE integrator with adaptive step-sizing described previously is 
+implemented in the function \code{rk4ad}. To test this function, two scripts were again written, the 
+first being \code{trk4\_sho.m}, which calls \code{rk4} to integrate the simple harmonic oscillator ODE. 
+This script uses the function parameter \code{x0 = [0; 1]} and \code{tspan = linspace(0.0, 3.0 * pi, 65)} 
+to integrate the function four times with the relative tolerances \code{1.0e-5, 1.0e-7, 1.0e-9, 1.0e-11}. 
+Figure \ref{trk4ad_sho_2_fig} shows the exact error of each approximation throughout the domain of $t$ 
+upon which the ODE was integrated. It is clear that the numerical approximations rapidly become more 
 accurate as \code{reltol} decreases, as expected. Refer to Appendix E for the MATLAB code for 
 \code{trk4ad\_sho.m}.
 
@@ -355,7 +355,8 @@ By testing with the scripts described previously, the functions \code{rk4step}, 
 to $O(\Delta t^5)$, and \code{rk4} was shown to be accurate to $O(\Delta t^4)$. From Figure 
 \ref{trk4ad_sho_2_fig}, we can conclude that the approximation \code{rk4ad} produces is accurate to 
 \textit{at least} $O(\Delta t^4)$ where $\Delta t$ represents the spacing between adjacent elements in 
-\code{tspan}. However, since \code{reltol} can be manually adjusted the accuracy increased further. 
+\code{tspan}. However, since \code{reltol} can be manually adjusted the accuracy can be increased 
+further. 
 
 The MATLAB implementation of \code{rk4ad} can likely be made more concise and efficient if time is taken 
 to improve it. Additionally, other implementations of \code{rk4ad} could vary the step size differently 
