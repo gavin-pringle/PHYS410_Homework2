@@ -39,7 +39,7 @@ reltol = 1.0e-10;                   % Relative tolerance
 
 % Plot position vs time
 fig1 = figure(1);
-plot(tout, xout(:,1), "LineWidth", 2, "Color", 'm')
+plot(tout, xout(:,1), "LineWidth", 2, "Color", "#D95319")
 title({"Numerical solution of Van der Pol oscillator ODE using rk4ad", ...
        "Position x vs. Time t, Relative tolerance = 1.0e-10"});
 xlabel("Independent Variable - Time t");
@@ -49,7 +49,7 @@ ax.FontSize = 12;
 
 % Plot phase space evolution 
 fig2 = figure(2);
-plot(xout(:,1), xout(:,2), "LineWidth", 2, "Color", 'm')
+plot(xout(:,1), xout(:,2), "LineWidth", 2, "Color", "#D95319")
 title({"Phase space evolution of Van der Pol oscillator ODE using rk4ad", ...
        "Velocity dx/dt vs. Position x, Relative tolerance = 1.0e-10"});
 xlabel("Position x");
