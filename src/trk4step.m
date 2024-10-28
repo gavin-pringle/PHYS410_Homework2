@@ -48,6 +48,6 @@ plot(dt, C*dt.^5, "--", "Color", 'b', "LineWidth", 3);
 title("Magnitude of error vs. time step length dt shown to scale as dt^5");
 xlabel("Time step length dt");
 ylabel("Magnitude of error");
-legend(["Error", "C * t^5"], 'location', 'best');
+legend(["Error", "C * dt^5"], 'location', 'best');
 ax = gca; 
 ax.FontSize = 12;

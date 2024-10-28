@@ -231,16 +231,65 @@ end
 
 \subsubsection*{rk4step.m Output}
 
+% reference appendix b
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{rk4step.png}
-\caption{REPLACE THIS!!!! ASDFASDFASFASDFASDFASDFASF}
+\caption{Exact error of Runge-Kutta steps of various sizes for the simple harmonic oscillator ODE at 
+\code{t0 = 0}. Alignment with the curve $0.0083 \times dt^5$ shows the error is proportional to 
+$\Delta t^5$.}\label{rk4step_fig}
 \end{figure}
 
 \subsubsection*{rk4.m Output}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{trk4_sho_2.png}
+\caption{Fourth-order convergence shown by near alignment of the exact errors of numerical solutions 
+at different discretization levels, each scaled to show expected fourth-order convergence behaviour.
+}\label{trk4_sho_2_fig}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{trk4_vdp_1.png}
+\caption{Numerical solution of the Van der Pol oscillator ODE computed by \code{rk4.m} on the domain
+$0 \leq t \leq 100$ at discretization level 12.}\label{trk4_vdp_1_fig}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{trk4_vdp_2.png}
+\caption{Phase space evolution of the Van der Pol oscillator ODE computed by \code{rk4.m} on the domain
+$0 \leq t \leq 100$ at discretization level 12.}\label{trk4_vdp_2_fig}
+\end{figure}
+
 \subsubsection*{rk4ad.m Output}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{trk4ad_sho_2.png}
+\caption{Errors of numerical solutions to the simple harmonic oscillator ODE at various \code{rk4ad.m}
+relative tolerances \code{reltol}, on the domain defined by \code{tspan = linspace(0.0, 3.0 * pi, 65)}.
+}\label{trk4ad_sho_2_fig}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{trk4ad_vdp_1.png}
+\caption{Numerical solution of the Van der Pol oscillator ODE computed by \code{rk4ad.m} on the domain
+defined by \code{tspan = linspace(0.0, 100, 4097)} with \code{reltol = 1.0e-10}.}
+\label{trk4ad_vdp_1_fig}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{trk4ad_vdp_2.png}
+\caption{Phase space evolution of the Van der Pol oscillator ODE computed by \code{rk4ad.m} on the domain
+defined by \code{tspan = linspace(0.0, 100, 4097)} with \code{reltol = 1.0e-10}.}
+\label{trk4ad_vdp_2_fig}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Conclusions
