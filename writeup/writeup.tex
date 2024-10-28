@@ -350,6 +350,18 @@ defined by \code{tspan = linspace(0.0, 100, 4097)} with \code{reltol = 1.0e-10}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Conclusions}
 
+By testing with the scripts described previously, the functions \code{rk4step}, \code{rk4}, and 
+\code{rk4ad} were determined to work as expected. \code{rk4step} was shown to be accurate
+to $O(\Delta t^5)$, and \code{rk4} was shown to be accurate to $O(\Delta t^4)$. From Figure 
+\ref{trk4ad_sho_2_fig}, we can conclude that the approximation \code{rk4ad} produces is accurate to 
+\textit{at least} $O(\Delta t^4)$ where $\Delta t$ represents the spacing between adjacent elements in 
+\code{tspan}. However, since \code{reltol} can be manually adjusted the accuracy increased further. 
+
+The MATLAB implementation of \code{rk4ad} can likely be made more concise and efficient if time is taken 
+to improve it. Additionally, other implementations of \code{rk4ad} could vary the step size differently 
+depending on the estimated error. 
+
+Generative AI was used only for assistance in typesetting this document for this homework assignment. 
 
 \pagebreak
 
