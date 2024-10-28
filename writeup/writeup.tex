@@ -231,7 +231,19 @@ end
 
 \subsubsection*{rk4step.m Output}
 
-% reference appendix b
+To test the functionality and accuracy of the single fourth-order Runge-Kutta step function
+\code{rk4step.m}, the script \code{trk4step.m} was written, shown in Appendix B. The simple harmonic 
+oscillator ODE is implemented as described previously, and the function \code{rk4step} is called 
+repeatedly in a loop with an increasing step size defined by the array 
+\code{dt = linspace(0.01, 0.3, 1000)} and the parameters \code{x0 = [0; 1]} and \code{t0 = 0}. The 
+error between computed value of $y$ for each step size and the exact value given by 
+$y(t + \Delta t) = \sin(t + \Delta t)$ was then plotted.  
+
+By guessing and checking, the constant $C = 0.0083$ was found that causes the curve defined by 
+$C \Delta t^5$ to align with the curve given by the error between the computed solutions and the 
+exact solutions. Since this curve is proportional to $\Delta t^5$ as shown in Figure \ref{rk4step_fig},
+we can conclude that a single step of the fourth-order Runge-Kutta integrator is accurate to 
+$O(\Delta t^5)$.
 
 \begin{figure}[H]
 \centering
@@ -243,6 +255,20 @@ $\Delta t^5$.}\label{rk4step_fig}
 
 \subsubsection*{rk4.m Output}
 
+The function \code{rk4} was written to numerically integrate an ODE by taking consecutive 
+Runge-Kutta steps, as described previously. To test this function, two scripts were written, the 
+first being \code{trk4\_sho.m}, which calls \code{rk4} to integrate the simple harmonic oscillator 
+ODE. This was done with the initial conditions defined by \code{x0 = [0; 1]} on the interval 
+$0 \leq t \leq 3\pi$ at discretization levels $l = 6, 7, 8$. Since the exact solution to this IVP
+is given by $y(t) = \sin(t)$, the exact errors were calculated for each discretization level.
+
+For fourth order convergence, the magnitude of the error given by the numerical solutions is expected 
+to decrease by a factor of $(2 \Delta l)^4$ for each increase $\Delta l$ above a baseline $l$. If we 
+scale the errors at higher discretization levels by dividing by this value, we should see near 
+convergence for the error curves if our approximation is accurate to $O(\Delta t^4)$. We can see in 
+Figure \ref{trk4_sho_2_fig} that is the case as we expect. Refer to Appendix D for the MATLAB code 
+for \code{trk4\_sho.m}.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{trk4_sho_2.png}
@@ -250,6 +276,15 @@ $\Delta t^5$.}\label{rk4step_fig}
 at different discretization levels, each scaled to show expected fourth-order convergence behaviour.
 }\label{trk4_sho_2_fig}
 \end{figure}
+
+The second script written to test the function \code{rk4} is \code{trk4\_vdp.m}, which calls \code{rk4} 
+to integrate the unforced Van der Pol oscillator ODE. This was done with the initial conditions defined 
+by \code{x0 = [1; -6]} on the interval $0 \leq t \leq 100$ at discretization level 12. The numerical 
+solution for the function $x(t)$ is plotted in Figure \ref{trk4_vdp_1_fig} and the phase space 
+evolution $\frac{dx}{dt}(x)$ is plotted in Figure \ref{trk4_vdp_2_fig}. In view of the 
+\href{https://en.wikipedia.org/wiki/Van_der_Pol_oscillator}{Wikipedia page} for the Van der Pol 
+oscillator, we can confirm that this is the expected output which provides evidence that \code{rk4} has 
+been implemented correctly. Refer to Appendix E for the MATLAB code for \code{trk4\_vdp.m}.
 
 \begin{figure}[H]
 \centering
@@ -267,6 +302,16 @@ $0 \leq t \leq 100$ at discretization level 12.}\label{trk4_vdp_2_fig}
 
 \subsubsection*{rk4ad.m Output}
 
+The fourth-order Runge-Kutta ODE integrator described previously is implemented in the function 
+\code{rk4ad}. To test this function, two scripts were again written, the first being \code{trk4\_sho.m}, 
+which calls \code{rk4} to integrate the simple harmonic oscillator ODE. This script uses the function
+parameter \code{x0 = [0; 1]} and \code{tspan = linspace(0.0, 3.0 * pi, 65)} to integrate the function 
+four times with the relative tolerances \code{1.0e-5, 1.0e-7, 1.0e-9, 1.0e-11}. Figure 
+\ref{trk4ad_sho_2_fig} shows the exact error of each approximation throughout the domain of $t$ upon 
+which the ODE was integrated. It is clear that the numerical approximations rapidly become more 
+accurate as \code{reltol} decreases, as expected. Refer to Appendix E for the MATLAB code for 
+\code{trk4ad\_sho.m}.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.9\textwidth]{trk4ad_sho_2.png}
@@ -274,6 +319,15 @@ $0 \leq t \leq 100$ at discretization level 12.}\label{trk4_vdp_2_fig}
 relative tolerances \code{reltol}, on the domain defined by \code{tspan = linspace(0.0, 3.0 * pi, 65)}.
 }\label{trk4ad_sho_2_fig}
 \end{figure}
+
+As for \code{rk4.m}, the second script written to test the function \code{rk4ad} is \code{trk4ad\_vdp.m}
+which calls \code{rk4ad} to integrate the unforced Van der Pol oscillator ODE. This was done with the 
+initial conditions defined by \code{x0 = [1; -6]} on the interval defined by 
+\code{tspan = linspace(0.0, 100, 4097)} with \code{reltol = 1.0e-10}. The numerical solution for the 
+function $x(t)$ is plotted in Figure \ref{trk4ad_vdp_1_fig} and the phase space evolution 
+$\frac{dx}{dt}(x)$ is plotted in Figure \ref{trk4ad_vdp_2_fig}. These plots look quite similar to 
+Figures \ref{trk4_vdp_1_fig} and \ref{trk4_vdp_2_fig}, indicating that the function \code{rk4ad} again 
+produces an accurate solution that is only more precise than function \code{rk4ad}.
 
 \begin{figure}[H]
 \centering
